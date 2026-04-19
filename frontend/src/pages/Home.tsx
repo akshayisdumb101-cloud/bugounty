@@ -21,6 +21,7 @@ const Home = () => {
   const [processingId, setProcessingId] = useState<string | null>(null);
 
   useEffect(() => {
+    const fetchNFTs = async () => {
       try {
         const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3001';
         const res = await fetch(`${backendUrl}/api/nfts`);
