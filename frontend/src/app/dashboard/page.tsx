@@ -17,8 +17,8 @@ import { approveWorkOnChain } from "@/lib/stellar";
 
 export default function Dashboard() {
   const { address, loading: authLoading } = useWallet();
-  const [postedBounties, setPostedBounties] = useState([]);
-  const [submissions, setSubmissions] = useState([]);
+  const [postedBounties, setPostedBounties] = useState<any[]>([]);
+  const [submissions, setSubmissions] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
 
