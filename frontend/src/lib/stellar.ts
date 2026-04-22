@@ -66,7 +66,6 @@ async function waitForTransaction(txHash: string) {
 async function signAndSubmit(tx: any) {
   console.log("Requesting signature...");
   const freighterResponse: any = await signTransaction(tx.toXDR(), { 
-    network: "TESTNET",
     networkPassphrase: NETWORK_PASSPHRASE
   });
 
