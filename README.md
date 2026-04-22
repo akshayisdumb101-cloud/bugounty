@@ -1,53 +1,65 @@
-# Stellar Soroban NFT Marketplace
+# BountiFi: Decentralized Bounty Platform on Stellar 🌌
 
-A high-revenue, premium NFT marketplace built on the Stellar network using Soroban smart contracts.
+[![CI](https://github.com/saasflare-online/chainnft/actions/workflows/ci.yml/badge.svg)](https://github.com/saasflare-online/chainnft/actions)
 
-![Desktop View](https://images.unsplash.com/photo-1614850523296-d8c1af93d400?auto=format&fit=crop&q=80&w=1200)
+BountiFi is a high-end, decentralized bounty platform built on Stellar Soroban. It enables trustless task management through an inter-contract escrow architecture, combined with a high-performance MongoDB indexing layer for a premium, low-latency user experience.
 
-## 🚀 Live Demo
-- **URL**: [https://stellar-soroban-nft.netlify.app](https://stellar-soroban-nft.netlify.app)
-- **CI Status**: ![CI](https://github.com/saasflare-online/chainnft/actions/workflows/ci.yml/badge.svg)
+## 🚀 Key Features
+- **🌐 Hybrid On-Chain/Off-Chain Architecture**: Secure fund management on Soroban with real-time indexing via MongoDB.
+- **🛡️ Multi-Step Deployment Wizard**: Secure bounty posting flow including automated Trustlines, XLM-to-BNTY conversion, and Payout Authorization.
+- **📊 Personalized Dashboard**: Advanced management portal for posters to review work (via IPFS) and hunters to track earnings.
+- **⚡ Automated Payouts**: One-click "Approve & Pay" triggers atomic cross-contract fund releases.
 
-## ✨ Features
-- **Freighter Integration**: Secure wallet connectivity and signing for all transactions.
-- **Inter-Contract Architecture**: 
-  - **NFT Contract**: Mint and manage unique assets with on-chain metadata.
-  - **Royalty Splitter**: Automatic revenue distribution (50% Creator, 25% Platform, 25% Treasury).
-  - **Marketplace**: Atomic listing and purchases using cross-contract calls.
-- **Micro-Animations**: Smooth React-based UI with TailwindCSS and Lucide-React icons.
-- **MongoDB Indexing**: Fast off-chain indexing of blockchain events for activity history.
+## 📱 Mobile Preview
+| Feed View | Dashboard View |
+|-----------|------------------|
+| ![Mobile Feed](https://placehold.co/300x600/0a0a0a/3b82f6?text=Bounty+Feed) | ![Dashboard](https://placehold.co/300x600/0a0a0a/10b981?text=User+Dashboard) |
 
-## 🛠 Tech Stack
-- **Frontend**: Vite + React + TypeScript + TailwindCSS
-- **Backend/Indexer**: Node.js + Express + Mongoose (MongoDB)
-- **Contracts**: Soroban Rust SDK
-- **Wallet**: Freighter
+## 🏗️ Technical Architecture
+The platform consists of three core Soroban contracts and a synchronized metadata layer:
 
-## 📜 Verified Contract Addresses (Testnet)
-| Contract | Address |
-| --- | --- |
-| **NFT** | `CAAERVDMPWVEOVRO24OZRT7MTQU4Q3FACQ3ABZVWXQR5TSSXH3FOEL7A` |
-| **Marketplace** | `CDNTJDRFJZHLTY3BVWSBYKGJGJR3UDTWAX2PU65FEDNGB5CVMWGTZEKL` |
-| **Royalty Splitter** | `CB4USENGKQMOW7AIENBSMNBBTISXBWWAHE63X6ZMTJ5JEQRRJ5ZSQWLL` |
+1. **BountyToken (`CD...TOKEN`)**: SEP-41 utility token for rewards.
+2. **Escrow (`CD...ESCROW`)**: A vault that holds funds and only releases them via `BountyBoard` authorized calls.
+3. **BountyBoard (`CD...BOARD`)**: The central engine handling submissions and atomic approvals.
 
-> [!NOTE]
-> **Production Ready**: These contracts are initialized and live. The Genesis NFT #1 is already listed and visible in the gallery.
+### Inter-Contract Escrow (Atomic Release)
+When a poster approves a submission, the BountyBoard contract triggers a cross-contract call to the Escrow contract:
 
-## 🛠 Local Setup
-
-### 1. Backend (Indexer & API)
-```bash
-cd backend
-npm install
-npm run dev
+```rust
+// BountyBoard.rs
+let escrow_client = escrow::Client::new(&e, &escrow_addr);
+escrow_client.release(&winner, &reward);
 ```
 
-### 2. Frontend
-```bash
-cd frontend
-npm install
-npm run dev
-```
+## 🛠️ Stack
+- **Smart Contracts**: Rust + Soroban SDK
+- **Frontend**: Next.js 16 (App Router) + Framer Motion
+- **Database**: MongoDB (Secondary Indexing)
+### Network Configuration
+- **Network**: Stellar Testnet
+- **BNTY Asset Code**: `BNTY`
+- **BNTY Issuer**: `GC2GPSZ6XBU7VNVLNR3EHDUSVSKXFL7ZL2KJVLSFVKYU34KUURY5FAB7`
+- **BNTY Soroban Wrapper**: `CA26J2YJNTDQONXOCUKHFTQ2SVY4ZHANVIF3VI45LLNT3MYX5KLUFDTJ`
 
-## 📄 License
+### Contract Addresses
+- **Bounty Board**: `CA3NRNACCQNILSO253SYYNWZBITCD4GVMMQBLEK2M4PV4YUTAXZONVYT`
+- **Escrow**: `CBNKNOG37YHDBIAZDMDDLR2CVZ2KVJKASOM2APWSIFZ5ECGIRS3A6B55`
+
+## 🏃 Local Development
+
+1. **Contracts**:
+   ```bash
+   cd contracts
+   stellar contract build
+   stellar contract test
+   ```
+
+2. **Frontend**:
+   ```bash
+   cd frontend
+   npm install
+   npm run dev
+   ```
+
+## 📜 License
 MIT

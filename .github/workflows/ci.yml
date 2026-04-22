@@ -7,67 +7,32 @@ on:
     branches: [ main ]
 
 jobs:
-  contracts:
-    name: Build & Test Contracts
+  rust-tests:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
+      - uses: actions/checkout@v3
       - name: Install Rust
         uses: dtolnay/rust-toolchain@stable
         with:
           targets: wasm32-unknown-unknown
-          
-      - name: Install Stellar CLI
-        run: |
-          curl -sSfL https://release.stellar.org/stellar-cli/install.sh | sh -s -- --to /usr/local/bin
-          stellar --version
-          
-      - name: Cache Cargo
-        uses: actions/cache@v4
-        with:
-          path: |
-            ~/.cargo/bin/
-            ~/.cargo/registry/index/
-            ~/.cargo/registry/cache/
-            ~/.cargo/git/db/
-            contracts/target/
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          
-      - name: Build Contracts (Optimized)
-        run: |
-          cd contracts
-          stellar contract build --optimize
-          
-      - name: Run Tests
+      - name: Run Contract Tests
         run: |
           cd contracts
           cargo test
 
-  frontend:
-    name: Lint & Build Frontend
+  frontend-build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      
+      - uses: actions/checkout@v3
       - name: Setup Node
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: 20
-          cache: 'npm'
-          cache-dependency-path: frontend/package-lock.json
-          
-      - name: Install Dependencies
+      - name: Install dependencies
         run: |
           cd frontend
           npm install
-          
-      - name: Lint
-        run: |
-          cd frontend
-          npm run lint
-          
-      - name: Build
+      - name: Build Frontend
         run: |
           cd frontend
           npm run build

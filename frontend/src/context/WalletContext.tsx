@@ -1,58 +1,58 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { isConnected, getPublicKey, signTransaction } from '@stellar/freighter-api';
+"use client";
+
+import React, { createContext, useContext, useState, useEffect } from "react";
+import { connectWallet } from "@/lib/stellar";
 
 interface WalletContextType {
   address: string | null;
-  connecting: boolean;
   connect: () => Promise<void>;
-  sign: (xdr: string, network?: string) => Promise<string>;
+  disconnect: () => void;
+  loading: boolean;
 }
 
 const WalletContext = createContext<WalletContextType | undefined>(undefined);
 
-export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export function WalletProvider({ children }: { children: React.ReactNode }) {
   const [address, setAddress] = useState<string | null>(null);
-  const [connecting, setConnecting] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // Check if previously connected in this session
+    const savedAddress = localStorage.getItem("bountifi_address");
+    if (savedAddress) {
+      setAddress(savedAddress);
+    }
+    setLoading(false);
+  }, []);
 
   const connect = async () => {
-    setConnecting(true);
     try {
-      if (await isConnected()) {
-        const pubkey = await getPublicKey();
-        setAddress(pubkey);
-      } else {
-        alert("Please install Freighter wallet");
+      const pubKey = await connectWallet();
+      if (pubKey) {
+        setAddress(pubKey);
+        localStorage.setItem("bountifi_address", pubKey);
       }
     } catch (e) {
-      console.error(e);
-    } finally {
-      setConnecting(false);
+      console.error("Connection failed", e);
     }
   };
 
-  const sign = async (xdr: string, network: string = 'TESTNET') => {
-    return await signTransaction(xdr, { network });
+  const disconnect = () => {
+    setAddress(null);
+    localStorage.removeItem("bountifi_address");
   };
 
-  useEffect(() => {
-    const checkConnection = async () => {
-      if (await isConnected()) {
-        const pubkey = await getPublicKey();
-        if (pubkey) setAddress(pubkey);
-      }
-    };
-    checkConnection();
-  }, []);
-
   return (
-    <WalletContext.Provider value={{ address, connecting, connect, sign }}>
+    <WalletContext.Provider value={{ address, connect, disconnect, loading }}>
       {children}
     </WalletContext.Provider>
   );
-};
+}
 
-export const useWallet = () => {
+export function useWallet() {
   const context = useContext(WalletContext);
-  if (!context) throw new Error('useWallet must be used within WalletProvider');
+  if (context === undefined) {
+    throw new Error("useWallet must be used within a WalletProvider");
+  }
   return context;
-};
+}
