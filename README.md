@@ -63,3 +63,7 @@ escrow_client.release(&winner, &reward);
 
 ## 📜 License
 MIT
+
+
+---
+Triggering Vercel rebuild after git cleanup.
