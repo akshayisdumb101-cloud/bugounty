@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/akshaykhikhikhi/bontiFi/actions/workflows/ci.yml/badge.svg)](https://github.com/akshaykhikhikhi/bontiFi/actions)
 
+**Live App**: [https://bonti-fi.vercel.app/](https://bonti-fi.vercel.app/)
+
 BountiFi is a high-end, decentralized bounty platform built on Stellar Soroban. It enables trustless task management through an inter-contract escrow architecture, combined with a high-performance MongoDB indexing layer for a premium, low-latency user experience.
 
 ## 🚀 Key Features
@@ -156,6 +158,8 @@ impl BountyBoard {
 ### Contract Addresses
 - **Bounty Board**: `CA3NRNACCQNILSO253SYYNWZBITCD4GVMMQBLEK2M4PV4YUTAXZONVYT`
 - **Escrow**: `CBNKNOG37YHDBIAZDMDDLR2CVZ2KVJKASOM2APWSIFZ5ECGIRS3A6B55`
+
+**Deployment Transaction**: [View on Stellar Expert](https://stellar.expert/explorer/testnet/op/9385761967239169)
 
 ## 🏃 Local Development
 
