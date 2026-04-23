@@ -1,6 +1,6 @@
 # Bug Bounty: Decentralized Bounty Platform on Stellar 🌌
 
-[![CI](https://github.com/akshaykhikhikhi/bug-bounty/actions/workflows/ci.yml/badge.svg)](https://github.com/akshaykhikhikhi/bug-bounty/actions)
+[![CI](https://github.com/akshayisdumb101-cloud/bugounty/actions/workflows/ci.yml/badge.svg)](https://github.com/akshayisdumb101-cloud/bugounty/actions)
 
 **Live App**: [https://bug-bounty.vercel.app/](https://bug-bounty.vercel.app/)
 
@@ -18,7 +18,7 @@ Bug Bounty is a high-end, decentralized bounty platform built on Stellar Soroban
 | ![Mobile Feed](./screenshots/feed.png) | ![Dashboard](./screenshots/dashboard.png) |
 
 ### 🎥 Live Demo
-https://github.com/akshaykhikhikhi/bug-bounty/raw/main/videos/demo.mov
+https://github.com/akshayisdumb101-cloud/bugounty/raw/main/videos/demo.mov
 
 ## 🏗️ Technical Architecture
 The platform consists of three core Soroban contracts and a synchronized metadata layer:
